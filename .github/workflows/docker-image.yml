@@ -13,7 +13,7 @@ on:
 
 env:
   # TODO: Change variable to your image's name.
-  IMAGE_NAME: salpadding/ci-node
+  IMAGE: salpadding/ci-node
 jobs:
   # Run tests.
   # See also https://docs.docker.com/docker-hub/builds/automated-testing/
@@ -29,14 +29,14 @@ jobs:
 
     steps:             
       - name: Build image
-        run: ./docker/build.sh -i $IMAGE_NAME
+        run: bash docker/build.sh
         
       - name: Log into registry
         run: echo "${{ secrets.DOCKER_HUB_PASSWORD }}" | docker login -u salpadding --password-stdin
 
       - name: Push image
         run: |
-          IMAGE_ID=$IMAGE_NAME
+          IMAGE_ID=$IMAGE
           # Strip git ref prefix from version
           VERSION=$(echo "${{ github.ref }}" | sed -e 's,.*/\(.*\),\1,')
           # Strip "v" prefix from tag name
@@ -45,7 +45,7 @@ jobs:
           [ "$VERSION" == "release" ] && VERSION=latest
           echo IMAGE_ID=$IMAGE_ID
           echo VERSION=$VERSION
-          docker tag $IMAGE_NAME $IMAGE_ID:$VERSION
+          docker tag $IMAGE $IMAGE_ID:$VERSION
           docker push $IMAGE_ID:$VERSION
 
 
