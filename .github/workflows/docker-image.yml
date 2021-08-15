@@ -19,17 +19,17 @@ jobs:
   # See also https://docs.docker.com/docker-hub/builds/automated-testing/
 
 
-  # Push image to GitHub Packages.
+  # Push image to dockerhub
   # See also https://docs.docker.com/docker-hub/builds/
   push:
-    # Ensure test job passes before pushing image.
-
     runs-on: ubuntu-latest
     if: github.event_name == 'push'
 
-    steps:             
-      - name: pwd
-        run: ls -al
+    steps:       
+      # To use this repository's private action,
+      # you must check out the repository    
+      - name: Checkout
+        uses: actions/checkout@v2
         
       - name: Build image
         run: bash docker/build.sh
@@ -40,11 +40,14 @@ jobs:
       - name: Push image
         run: |
           IMAGE_ID=$IMAGE
+          
           # Strip git ref prefix from version
           VERSION=$(echo "${{ github.ref }}" | sed -e 's,.*/\(.*\),\1,')
-          # Strip "v" prefix from tag name
-          [[ "${{ github.ref }}" == "refs/tags/"* ]] && VERSION=$(echo $VERSION | sed -e 's/^v//')
-          # Use Docker `latest` tag convention
+          
+          # Strip "release-" prefix from branch name 
+          [[ "${{ github.ref }}" == "refs/heads/release-"* ]] && VERSION=$(echo $VERSION | sed -e 's/^release-//')    
+          
+          # Use Docker `latest` tag on release branch
           [ "$VERSION" == "release" ] && VERSION=latest
           echo IMAGE_ID=$IMAGE_ID
           echo VERSION=$VERSION
