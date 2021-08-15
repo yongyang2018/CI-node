@@ -99,6 +99,9 @@ echo "image name = $_arg_image"
 
 pushd $PROJ_ROOT >> /dev/null
 
+# install dependencies
+npm i
+
 # build docker image
 docker build -f Dockerfile -t $_arg_image .
 
