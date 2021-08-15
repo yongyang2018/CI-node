@@ -1,0 +1,22 @@
+{
+  "name": "ci-nodejs",
+  "version": "1.0.0",
+  "description": "github ci example for nodejs application",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Salpadding/CI-nodejs.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Salpadding/CI-nodejs/issues"
+  },
+  "homepage": "https://github.com/Salpadding/CI-nodejs#readme",
+  "dependencies": {
+    "express": "^4.17.1"
+  }
+}
