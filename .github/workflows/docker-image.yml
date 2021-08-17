@@ -39,7 +39,7 @@ jobs:
 
       - name: Push image
         run: |
-          IMAGE_ID="${{ secrets.DOCKER_HUB_USERNAME }}$IMAGE"
+          IMAGE_ID="${{ secrets.DOCKER_HUB_USERNAME }}/$IMAGE"
           
           # Strip git ref prefix from version
           VERSION=$(echo "${{ github.ref }}" | sed -e 's,.*/\(.*\),\1,')
